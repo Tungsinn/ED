@@ -9,6 +9,11 @@ void inicializaLista(lista* L) {
 	L->ultElem = NULL;
 }
 
+short listaVazia(lista* L) {
+	if(L->priElem == NULL) return 1;
+	return 0;
+}
+
 /* Inserção no início */
 void insereInicio(lista* L, int x) {
 	no* novoNo;
@@ -26,6 +31,28 @@ void insereInicio(lista* L, int x) {
 	L->priElem = novoNo;
 }
 
+/* Insere no final */
+void insereFinal(lista* L, int x) {
+	no* novoNo;
+	no* aux;
+	
+	if((novoNo = (no*) malloc(sizeof(no))) == NULL) {
+		perror("\nErro de alocação de memória...");
+		exit(1);
+	}
+	novoNo->elem = x;
+	novoNo->prox = NULL;
+	if(listaVazia(L))
+		L->priElem = novoNo;
+	else {
+		aux = L->ultElem;
+		aux->prox = novoNo;
+	}
+	L->ultElem = novoNo;
+	novoNo->prox = NULL;
+}
+
+/* Insere na posição específica */
 void inserePosicao(lista* L, int x, int pos) {
 	int cont = 0;
 	no* novoNo;
@@ -51,6 +78,7 @@ void inserePosicao(lista* L, int x, int pos) {
 	return;
 }
 
+/* Insere em ordem crescente */
 void insereOrdenado(lista* L, int x) {
     no* novoNo;
     no* aux;
@@ -88,23 +116,8 @@ void preencheLista(lista* L) {
 	
 	for(i = 0; i < 5; i++) {
 		x = randomNum();
-		insereInicio(L, x);
+		insereFinal(L, x);
 	}
-}
-
-void imprimeLista(lista* L) {
-	no* aux;
-	aux = L->priElem;
-	
-	while(aux != NULL) {
-		printf("\nElemento = %d", aux->elem);
-		aux = aux->prox;
-	}
-}
-
-short listaVazia(lista* L) {
-	if(L->priElem == NULL) return 1;
-	return 0;
 }
 
 no* buscaElem(lista* L, int x) {
@@ -118,6 +131,7 @@ no* buscaElem(lista* L, int x) {
 	return NULL;
 }
 
+/* Remove o primeiro elemento */
 void removePrimeiro(lista* L) {
 	no* aux;
 	aux = L->priElem;
@@ -125,6 +139,24 @@ void removePrimeiro(lista* L) {
 	free(aux);
 }
 
+/* Remove o último elemento */
+void removeUltimo(lista* L) {
+	no* aux;
+	no* ant;
+	aux = L->priElem;
+	
+	while(aux != NULL) {
+		if(aux == L->ultElem) {
+			ant->prox == NULL;
+			L->ultElem = ant;
+			free(aux);
+		}
+		ant = aux;
+		aux = aux->prox;
+	}
+}
+
+/* Remove um nó específico */
 short removeNo(lista* L, int x) {
 	no* ant = NULL;
 	no* aux = L->priElem;
@@ -144,6 +176,7 @@ short removeNo(lista* L, int x) {
 	return 1;
 }
 
+/* Remove um nó de uma posição específica */
 short removePosicao(lista* L, int pos) {
 	no* ant = NULL;
 	no* aux = L->priElem;
@@ -182,6 +215,35 @@ int tamanhoLista(lista* L) {
 		aux = aux->prox;
 	}
 	return tam;
+}
+
+short verificaOrdenacao(lista* L, char* ordem) {
+	no* aux;
+	aux = L->priElem;
+	
+	while(aux->prox != NULL) {
+		if(strcmp(ordem, "crescente") == 0)
+			if(aux->elem > aux->prox->elem) 
+				return 0;
+		else if(strcmp(ordem, "decrescente") == 0)
+			if(aux->elem < aux->prox->elem)
+				return 0;
+		aux = aux->prox;
+	}
+	return 1;
+}
+
+/* Copia a lista L para a lista L2 */
+void copiaLista(lista* L, lista* L2) {
+	int x;
+	no* aux;
+	aux = L->priElem;
+	
+	while(aux != NULL) {
+		x = aux->elem;
+		insereFinal(L2, x);
+		aux = aux->prox;
+	}
 }
 
 void imprime(lista* L) {
