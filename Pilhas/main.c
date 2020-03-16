@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
+#include "declaracoes.c"
+#include "funcoes.c"
 
 int main() {
     pilha* stack;
