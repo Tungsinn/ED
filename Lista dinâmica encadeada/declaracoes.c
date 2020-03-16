@@ -10,17 +10,20 @@ typedef struct Lista {
 
 int randomNum();
 void inicializaLista(lista* L);
+short listaVazia(lista* L);
 void insereInicio(lista* L, int x);
+void insereFinal(lista* L, int x);
 void inserePosicao(lista* L, int x, int pos);
 void insereOrdenado(lista* L, int x);
 void preencheLista(lista* L);
-void imprimeLista(lista* L);
-short listaVazia(lista* L);
 no* buscaElem(lista* L, int x);
 void removePrimeiro(lista* L);
+void removeUltimo(lista* L);
 short removeNo(lista* L, int x);
 short removePosicao(lista* L, int pos);
 no* getPrimeiro(lista* L);
 no* getUltimo(lista* L);
 int tamanhoLista(lista* L);
+short verificaOrdenacao(lista* L, char* ordem);
+void copiaLista(lista* L, lista* L2);
 void imprime(lista* L);
